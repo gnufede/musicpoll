@@ -11,7 +11,7 @@ Busca tu cancion
    <input type="submit" value="Search" />
    </form>
 
-   <div id="result"></div>
+   <ul id="result"></ul>
 {% endblock %}
 {% block extra_js %}
 <script type="text/javascript">
@@ -29,7 +29,7 @@ var fmurl = 'http://ws.audioscrobbler.com/2.0/?method=track.search&track=' + ter
 $.getJSON(fmurl, function(data) {
     var html = '';
     $.each(data.results.trackmatches.track, function(i, item) {
-        html += "<p>" + item.name + " - " + item.artist + "</p>";
+        html += "<li><a href="+item.url+"><img src="+item.image[0]['#text']+">" + item.name + " - " + item.artist + "</a></li>";
 });
     $('#result').append(html);
 
