@@ -1,0 +1,37 @@
+{% extends "content.html" %}
+
+{% load url from future %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block main %}
+
+<!--
+    <form class="vote" method="post" action="{#% url 'musicpolls.views.vote' %#}">
+    <fieldset>
+        <legend>{#% trans "Views Vote" %#}</legend>
+
+        {#% csrf_token %#}
+
+        <div>{#{form|crispy}#}</div>
+        <div class="ctrlHolder">
+            <button type="submit">{#% trans "Vote" %#}</button>
+        </div>
+
+        <input type="hidden" name="next" value="{#{next}#}" />
+
+    </fieldset>
+    </form>
+    <hr />
+
+    <p>
+-->
+    <h3>Votos<h3>
+    <ul>
+        {% for choice in object_list %}
+            <li>{{ choice.song.name }}</li>
+        {% endfor %}
+    </ul>
+
+    <div class="sep">&nbsp;</div>
+{% endblock %}

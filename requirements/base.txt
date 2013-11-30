@@ -1,0 +1,14 @@
+Django==1.6
+#bpython==0.12
+django-braces==1.2.2
+django-model-utils==1.5.0
+django-crispy-forms==1.4.0
+logutils==0.3.3
+South==0.8.2
+
+# Unicode slugification
+unicode-slugify==0.1.1
+django-autoslug==1.7.1
+
+# Useful things
+django-avatar==2.0

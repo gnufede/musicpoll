@@ -1,0 +1,38 @@
+{% extends "content.html" %}
+
+{% load url from future %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block main %}
+
+    <form class="login" method="post" action="{% url 'django.contrib.auth.views.login' %}">
+    <fieldset>
+        <legend>{% trans "Login" %}</legend>
+
+        {% csrf_token %}
+
+        <div>{{form|crispy}}</div>
+        <div class="ctrlHolder">
+            <button type="submit">{% trans "Sign in" %}</button>
+        </div>
+
+        <input type="hidden" name="next" value="{{next}}" />
+
+    </fieldset>
+    </form>
+    <hr />
+
+    <p class="right">
+        <a href="{% url 'password_reset' %}">
+        {% trans "Did you forget your password?" %}</a>
+    </p>
+    <p>
+    additional parameters:
+        <ul>
+            <li>site: {{site}}</li>
+            <li>site_name: {{site_name}}</li>
+        </ul>
+    </p>
+    <div class="sep">&nbsp;</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block page_title %}
+Busca tu cancion
+{% endblock %}
+{% block content %}
+   <form action="/wphmusic/" id="searchForm">
+   <input type="text" name="s" placeholder="Search..." />
+   <input type="submit" value="Search" />
+   </form>
+
+   <div id="result"></div>
+{% endblock %}
+{% block extra_js %}
+<script type="text/javascript">
+  // Handler for .ready() called.
+$("#searchForm").submit(function(event) {
+
+event.preventDefault(); 
+
+var $form = $( this ),
+    term = $form.find( 'input[name="s"]' ).val(),
+    url = $form.attr( 'action' );
+
+
+var fmurl = 'http://ws.audioscrobbler.com/2.0/?method=track.search&track=' + term + '&api_key=764d317cf1b9e5138294c20d70da74ef&format=json&callback=?';
+$.getJSON(fmurl, function(data) {
+    var html = '';
+    $.each(data.results.trackmatches.track, function(i, item) {
+        html += "<p>" + item.name + " - " + item.artist + "</p>";
+});
+    $('#result').append(html);
+
+});
+});
+
+</script>
+{% endblock %}
