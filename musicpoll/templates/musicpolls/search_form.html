@@ -24,12 +24,19 @@ var $form = $( this ),
     term = $form.find( 'input[name="s"]' ).val(),
     url = $form.attr( 'action' );
 
+$("#result").empty();
 
 var fmurl = 'http://ws.audioscrobbler.com/2.0/?method=track.search&track=' + term + '&api_key=764d317cf1b9e5138294c20d70da74ef&format=json&callback=?';
 $.getJSON(fmurl, function(data) {
     var html = '';
     $.each(data.results.trackmatches.track, function(i, item) {
-        html += "<li><a href="+item.url+"><img src="+item.image[0]['#text']+">" + item.name + " - " + item.artist + "</a></li>";
+        images = item.image
+        if (images != undefined && images[2]['#text'] != undefined){
+            imageurl=images[2]['#text']; 
+            html += "<li><a href="+item.url+"><img src=" +imageurl+ " />" + item.name + " - " + item.artist + "</a> <a href=/vote/"+item.name+" - "+item.artist+">Votar!</a>  </li>";
+        }else{
+        html += "<li><a href="+item.url+">" + item.name + " - " + item.artist + "</a></li>";
+        }
 });
     $('#result').append(html);
 

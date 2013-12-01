@@ -18,5 +18,5 @@ class ChoiceListView(ListView):
 
 class VoteView(CreateView):
     model = Choice
-    fields = ['song']
+    fields = ['song', 'index', 'user']
     success_url = reverse_lazy('choices')
