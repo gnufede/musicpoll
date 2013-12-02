@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import ListView, CreateView
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.models import User
@@ -35,7 +34,8 @@ class VoteListView(ListView):
     model = Choice
 
     def get_queryset(self):
-        return Choice.objects.all().values('song__lasturl', 'song__name', 'song__artist').\
+        return Choice.objects.all().\
+                values('song__lasturl', 'song__name', 'song__artist').\
                 annotate(dcount=Count('song')).\
                 order_by('dcount')
 
