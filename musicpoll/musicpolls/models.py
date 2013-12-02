@@ -14,7 +14,7 @@ class Song(models.Model):
 
 class Choice(models.Model):
     user = models.ForeignKey(User)
-    index = models.IntegerField(default=1,
+    index = models.IntegerField(default=10,
                     validators=[MinValueValidator(1), MaxValueValidator(10)])
     song = models.ForeignKey(Song)
     date = models.DateTimeField(auto_now=True)
