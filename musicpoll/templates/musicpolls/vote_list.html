@@ -1,0 +1,17 @@
+{% extends "content.html" %}
+
+{% load url from future %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block main %}
+
+    <h3>Votos<h3>
+    <ul>
+        {% for choice in object_list %}
+        <li><a href={{choice.song__lasturl}} >{{ choice.song__name }} - {{ choice.song__artist }}</a>: {{ choice.dcount }} </li>
+        {% endfor %}
+    </ul>
+
+    <div class="sep">&nbsp;</div>
+{% endblock %}
