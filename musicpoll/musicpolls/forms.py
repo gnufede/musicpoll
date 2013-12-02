@@ -9,12 +9,10 @@ class ChoiceForm(forms.ModelForm):
         model = Choice
 
     def clean(self):
-        current_user = (self.cleaned_data.get('user')
-        current_index = (self.cleaned_data.get('index')
+        current_user = self.cleaned_data.get('user')
+        current_index = self.cleaned_data.get('index')
         last_choice = Choice.objects.filter(user=current_user,
                                             index=current_index)
         if last_choice:
-            raise ValidationError(
-                    "Index already used."
-                    )
+            raise ValidationError("Index already used.")
         return self.cleaned_data

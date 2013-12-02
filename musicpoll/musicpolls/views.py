@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import ListView, CreateView
 from .models import Choice
+from .forms import ChoiceForm
 from django.core.urlresolvers import reverse_lazy
 
 # Create your views here.
@@ -18,5 +19,6 @@ class ChoiceListView(ListView):
 
 class VoteView(CreateView):
     model = Choice
+    form_class = ChoiceForm
     fields = ['song', 'index', 'user']
     success_url = reverse_lazy('choices')
