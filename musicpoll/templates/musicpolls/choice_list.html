@@ -29,7 +29,7 @@
     <h3>Votos<h3>
     <ul>
         {% for choice in object_list %}
-            <li>{{ choice.song.name }}</li>
+        <li> {{choice.index}}: {{ choice.song.name }} - {{choice.song.artist}}</li>
         {% endfor %}
     </ul>
 
