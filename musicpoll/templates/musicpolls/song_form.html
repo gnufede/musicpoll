@@ -6,14 +6,13 @@
 
 {% block main %}
 
-   <form action="/wphmusic/" id="searchForm">
-   <input type="text" name="s" placeholder="Search..." />
-   <input type="submit" value="Search" />
+   <form class="form-search" action="/wphmusic/" id="searchForm">
+   <input class="search-query" type="text" name="s" placeholder="Search..." />
+   <button class="btn" type="submit" value="Search" >Search</button>
    </form>
 
     <form id="addsong" class="addsong" method="post" action="{% url 'search' %}">
     <fieldset>
-        <legend>{% trans "Add song" %}</legend>
 
         {% csrf_token %}
 
@@ -23,7 +22,6 @@
 
     </fieldset>
     </form>
-    <hr />
 
 <ul id="result"></ul>
     <p>
@@ -57,12 +55,12 @@ $("#searchForm").submit(function(event) {
         var html = '';
         $.each(data.results.trackmatches.track, function(i, item) {
             images = item.image
-            if (images != undefined && images[2]['#text'] != undefined){
-                imageurl=images[2]['#text']; 
-                html += "<li data-name=\"" + item.name + "\" data-artist=\"" +item.artist+ "\" data-url=\""+ item.url+ "\"><a href=\""+item.url+"\"><img src=\"" +imageurl+ "\" />" + item.name + " - " + item.artist + "</a> <button class=\"filldata\">Add!</button>  </li>";
-            }else{
-            html += "<li><a href="+item.url+">" + item.name + " - " + item.artist + "</a></li>";
-            }
+                html += "<li data-name=\"" + item.name + "\" data-artist=\"" +item.artist+ "\" data-url=\""+ item.url+ "\"><a href=\""+item.url+"\">"
+                if (images != undefined && images[2]['#text'] != undefined){
+                    imageurl=images[2]['#text']; 
+                    html += "<img src=\"" +imageurl+ "\" />"
+                }
+                html += item.name + " - " + item.artist + "</a> <button class=\"btn filldata\">Add!</button>  </li>";
     });
         $('#result').append(html);
 
