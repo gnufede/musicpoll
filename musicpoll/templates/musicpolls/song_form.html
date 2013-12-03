@@ -23,6 +23,7 @@
     </fieldset>
     </form>
 
+<ul id="dynamic-content"></ul>
 <ul id="result"></ul>
     <p>
     <div class="sep">&nbsp;</div>
@@ -32,6 +33,7 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
+    $('#dynamic-content').load('/songlistjson');
     $('body').on('click', '.filldata', function () {
          $('#id_name').val($(this).parent().attr('data-name'));
          $('#id_artist').val($(this).parent().attr('data-artist'));
