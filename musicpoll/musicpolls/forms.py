@@ -1,7 +1,31 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django.forms.widgets import HiddenInput
 
-from .models import Choice
+from .models import Choice, Song
+
+class AddSongForm(forms.ModelForm):
+    #score = forms.IntegerField(max_value=10, min_value=1, initial=getInitial())
+
+    class Meta:
+        model = Song
+
+    #def getInitial():
+    #    return 10
+
+    def __init__(self, *args, **kwargs):
+        super(AddSongForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget = HiddenInput()
+        self.fields['artist'].widget = HiddenInput()
+        self.fields['lasturl'].widget = HiddenInput()
+
+    def clean(self):
+        lasturl = self.cleaned_data.get('lasturl')
+        lasturl_in_songs = Song.objects.filter(lasturl=lasturl)
+        if lasturl_in_songs:
+            raise ValidationError("Song already in database.")
+        return self.cleaned_data
+
 
 class ChoiceForm(forms.ModelForm):
 
@@ -9,7 +33,6 @@ class ChoiceForm(forms.ModelForm):
         model = Choice
 
     def __init__(self, *args, **kwargs):
-        from django.forms.widgets import HiddenInput
         super(ChoiceForm, self).__init__(*args, **kwargs)
         self.fields['user'].widget = HiddenInput()
 

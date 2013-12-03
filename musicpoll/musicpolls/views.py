@@ -2,17 +2,23 @@ from django.shortcuts import render
 from django.views.generic import ListView, CreateView
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.models import User
-from django.db.models import Count
+from django.db.models import Count, Sum
 
-from .models import Choice
-from .forms import ChoiceForm
+from .models import Choice, Song
+from .forms import ChoiceForm, AddSongForm
 
 # Create your views here.
 class ChoiceListView(ListView):
     model = Choice
 
     def get_queryset(self):
-        return Choice.objects.filter(user=self.request.user)
+        return Choice.objects.filter(user=self.request.user).order_by("-index")
+
+
+class AddSongView(CreateView):
+    model = Song
+    form_class = AddSongForm
+    success_url = reverse_lazy('vote')
 
 
 class VoteView(CreateView):
@@ -36,6 +42,6 @@ class VoteListView(ListView):
     def get_queryset(self):
         return Choice.objects.all().\
                 values('song__lasturl', 'song__name', 'song__artist').\
-                annotate(dcount=Count('song')).\
-                order_by('dcount')
+                annotate(dcount=Count('song'),votes=Sum('index')).\
+                order_by('-votes')
 
