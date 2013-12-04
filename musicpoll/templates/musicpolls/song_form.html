@@ -31,9 +31,22 @@
 
 {% block extra_js %}
 <script type="text/javascript">
+var lista = (function () {
+    var json = null;
+    $.ajax({
+        'async': false,
+        'global': false,
+        'url': '/songlistjson',
+        'dataType': "json",
+        'success': function (data) {
+            json = data;
+        }
+    });
+    return json;
+})(); 
 
 $(document).ready(function() {
-    $('#dynamic-content').load('/songlistjson');
+//    $('#dynamic-content').load('/songlistjson');
     $('body').on('click', '.filldata', function () {
          $('#id_name').val($(this).parent().attr('data-name'));
          $('#id_artist').val($(this).parent().attr('data-artist'));
@@ -62,7 +75,19 @@ $("#searchForm").submit(function(event) {
                     imageurl=images[2]['#text']; 
                     html += "<img src=\"" +imageurl+ "\" />"
                 }
-                html += item.name + " - " + item.artist + "</a> <button class=\"btn filldata\">Add!</button>  </li>";
+                html += item.name + " - " + item.artist ;
+                var already_added = false;
+            $.each(lista, function(i, listitem){
+                if (listitem.fields.lasturl == item.url){
+                    already_added = true;
+                    }
+                });
+                if (already_added){
+                    html += "</a> <a href='/vote' class=\"btn btn-danger\">Already Added!</a>  </li>";
+                 }else{
+                    html += "</a> <button class=\"btn filldata\">Add!</button>  </li>";
+                    }
+               // });
     });
         $('#result').append(html);
 
