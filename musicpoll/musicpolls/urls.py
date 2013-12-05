@@ -2,7 +2,8 @@
 from django.conf.urls import *
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import TemplateView
-from .views import ChoiceListView, VoteView, VoteListView, AddSongView, AjaxSongListView
+from .views import ChoiceListView, VoteView, VoteListView, AddSongView,\
+                    AjaxSongListView
 
 
 urlpatterns = patterns(

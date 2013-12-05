@@ -252,3 +252,5 @@ WSGI_APPLICATION = '%s.wsgi.application' % SITE_NAME
 ########## END WSGI CONFIGURATION
 
 LOGIN_REDIRECT_URL="/choices"
+
+LOGIN_URL="/login"

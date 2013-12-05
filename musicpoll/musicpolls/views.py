@@ -1,5 +1,4 @@
-from django import http
-from django.shortcuts import render
+from django.http import Http404, HttpResponse
 from django.views.generic import ListView, CreateView
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.models import User
@@ -8,13 +7,12 @@ from django.db.models import Count, Sum
 from .models import Choice, Song
 from .forms import ChoiceForm, AddSongForm
 
-from django.core import serializers
 
 class AJAXListMixin(object):
 
      def dispatch(self, request, *args, **kwargs):
          if not request.is_ajax():
-             raise http.Http404("This is an ajax view, friend.")
+             raise Http404("This is an ajax view, friend.")
          return super(AJAXListMixin, self).dispatch(request, *args, **kwargs)
 
      def get_queryset(self):
@@ -25,7 +23,7 @@ class AJAXListMixin(object):
          )
 
      def get(self, request, *args, **kwargs):
-         return http.HttpResponse(serializers.serialize('json', self.get_queryset()))
+         return HttpResponse(serializers.serialize('json', self.get_queryset()))
 
 
 class AjaxSongListView(AJAXListMixin, ListView):
@@ -46,8 +44,21 @@ class ChoiceListView(ListView):
 class AddSongView(CreateView):
     model = Song
     form_class = AddSongForm
-    success_url = reverse_lazy('vote')
+    success_url = reverse_lazy('choices')
 
+    def form_valid(self, form):
+        self.object = form.save()
+        user = self.request.user
+        song = self.object
+        previous_index = Choice.objects.filter(user=self.request.user).\
+                order_by('-index').last()
+        index = 10
+        if previous_index:
+            index = previous_index.index-1
+        if index > 0:
+            new_choice = Choice(user=user, song=song, index=index)
+            new_choice.save()
+        return super(AddSongView, self).form_valid(form)
 
 class VoteView(CreateView):
     model = Choice

@@ -1,17 +1,13 @@
-from django import forms
+from django.forms import ModelForm
 from django.core.exceptions import ValidationError
 from django.forms.widgets import HiddenInput
+from django.contrib.auth.models import User
 
 from .models import Choice, Song
 
-class AddSongForm(forms.ModelForm):
-    #score = forms.IntegerField(max_value=10, min_value=1, initial=getInitial())
-
+class AddSongForm(ModelForm):
     class Meta:
         model = Song
-
-    #def getInitial():
-    #    return 10
 
     def __init__(self, *args, **kwargs):
         super(AddSongForm, self).__init__(*args, **kwargs)
@@ -27,7 +23,8 @@ class AddSongForm(forms.ModelForm):
         return self.cleaned_data
 
 
-class ChoiceForm(forms.ModelForm):
+
+class ChoiceForm(ModelForm):
 
     class Meta:
         model = Choice
