@@ -72,20 +72,26 @@ $("#searchForm").submit(function(event) {
         var html = '';
         $.each(data.results.trackmatches.track, function(i, item) {
             images = item.image
-                html += "<li data-name=\"" + item.name + "\" data-artist=\"" +item.artist+ "\" data-url=\""+ item.url+ "\"><a href=\""+item.url+"\">"
+                var already_added = false;
+                var pk = false;
+            $.each(lista, function(i, listitem){
+                if (listitem.fields.lasturl == item.url){
+                    already_added = true;
+                    pk = listitem.pk;
+                    }
+                });
+                html += "<li data-name=\"" + item.name + "\" data-artist=\"" +item.artist+ "\" data-url=\""+ item.url+"\"";
+                if (already_added){
+                    html += " data-id="+pk;
+                 }
+                html += "><a href=\""+item.url+"\">"
                 if (images != undefined && images[2]['#text'] != undefined){
                     imageurl=images[2]['#text']; 
                     html += "<img src=\"" +imageurl+ "\" />"
                 }
                 html += item.name + " - " + item.artist ;
-                var already_added = false;
-            $.each(lista, function(i, listitem){
-                if (listitem.fields.lasturl == item.url){
-                    already_added = true;
-                    }
-                });
                 if (already_added){
-                    html += "</a> <a href='/vote' class=\"btn btn-danger\">Already Added!</a>  </li>";
+                    html += "</a> <a href='/vote' class=\"btn fillvote btn-danger\">Already Added!</a>  </li>";
                  }else{
                     html += "</a> <button class=\"btn filldata\">Add!</button>  </li>";
                     }
