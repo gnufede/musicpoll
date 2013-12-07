@@ -1,8 +1,11 @@
 from django.http import Http404, HttpResponse
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, View
+from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.models import User
 from django.db.models import Count, Sum
+
+import json
 
 from .models import Choice, Song
 from .forms import ChoiceForm, AddSongForm
@@ -31,8 +34,32 @@ class AjaxSongListView(AJAXListMixin, ListView):
     model = Song
 
     def get_queryset(self):
-        return Song.objects.all()
+        songs = Song.objects.all().annotate(count=Count('choice'))
+#        items = [(song.pk, song.name, song.artist, song.last_url, song.choice_set.count())]
+#        for song in songs:
+#            song.fields['count'] = song.choice_set.count()
+        return songs #list(songs.values())
 
+    def get(self, request, *args, **kwargs):
+        return HttpResponse(serializers.serialize('json', self.get_queryset(),\
+             use_natural_keys=True
+
+             ))
+
+class MySongsJsonView(View):
+
+    def get(self, *args, **kwargs):
+        choices = Choice.objects.filter(user=self.request.user)
+        songs = [choice.song for choice in choices]
+        result = [ob.as_json(count=0) for ob in songs]
+        return HttpResponse(json.dumps(result), mimetype="application/json" )
+
+class SongsJsonView(View):
+
+    def get(self, *args, **kwargs):
+        songs = Song.objects.all().annotate(count=Count('choice'))
+        result = [ob.as_json(ob.count) for ob in songs]
+        return HttpResponse(json.dumps(result), mimetype="application/json" )
 
 
 class ChoiceListView(ListView):
@@ -46,6 +73,11 @@ class AddSongView(CreateView):
     model = Song
     form_class = AddSongForm
     success_url = reverse_lazy('choices')
+
+    def get_form_kwargs(self):
+        kwargs = super(AddSongView, self).get_form_kwargs()
+        kwargs.update({'requestuser': self.request.user})
+        return kwargs
 
     def form_valid(self, form):
         if not form.cleaned_data['pk']:

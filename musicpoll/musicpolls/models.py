@@ -12,6 +12,15 @@ class Song(models.Model):
     def __unicode__(self):
         return self.name + ' - ' + self.artist
 
+    def as_json(self, count):
+        return dict(
+            id=self.id, 
+            name=self.name, 
+            artist=self.artist,
+            lasturl=self.lasturl,
+            count=count
+            )
+
 class Choice(models.Model):
     user = models.ForeignKey(User)
     index = models.IntegerField(default=10,

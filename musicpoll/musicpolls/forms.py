@@ -12,6 +12,7 @@ class AddSongForm(ModelForm):
         model = Song
 
     def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('requestuser')
         super(AddSongForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget = HiddenInput()
         self.fields['artist'].widget = HiddenInput()
@@ -24,6 +25,12 @@ class AddSongForm(ModelForm):
         lasturl_in_songs = Song.objects.filter(lasturl=lasturl)
         if not pk and lasturl_in_songs:
             raise ValidationError("Song already in database.")
+        if pk:
+            current_song = Song.objects.get(id=pk)
+            user_choices = Choice.objects.filter(user=self.user)
+            user_songs = [choice.song for choice in user_choices]
+            if current_song in user_songs:
+                raise ValidationError("Song already voted.")
         return self.cleaned_data
 
 

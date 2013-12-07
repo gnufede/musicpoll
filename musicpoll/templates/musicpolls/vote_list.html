@@ -11,7 +11,7 @@ All Votes
     <h3>Votos<h3>
     <ul>
         {% for choice in object_list %}
-        <li><a href={{choice.song__lasturl}} >{{ choice.song__name }} - {{ choice.song__artist }}</a>: {{ choice.votes }} </li>
+        <li><a href={{choice.song__lasturl}} >{{ choice.song__name }} - {{ choice.song__artist }}</a>: {{ choice.dcount }} </li>
         {% endfor %}
     </ul>
 
