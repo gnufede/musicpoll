@@ -53,6 +53,14 @@ $(document).ready(function() {
          $('#id_name').val($(this).parent().attr('data-name'));
          $('#id_artist').val($(this).parent().attr('data-artist'));
          $('#id_lasturl').val($(this).parent().attr('data-url'));
+         $('#id_pk').val($(this).parent().attr('data-id'));
+         document.getElementById("addsong").submit();
+    });
+    $('body').on('click', '.fillvote', function () {
+         $('#id_name').val($(this).parent().attr('data-name'));
+         $('#id_artist').val($(this).parent().attr('data-artist'));
+         $('#id_lasturl').val($(this).parent().attr('data-url'));
+         $('#id_pk').val($(this).parent().attr('data-id'));
          document.getElementById("addsong").submit();
     });
 });
@@ -91,7 +99,7 @@ $("#searchForm").submit(function(event) {
                 }
                 html += item.name + " - " + item.artist ;
                 if (already_added){
-                    html += "</a> <a href='/vote' class=\"btn fillvote btn-danger\">Already Added!</a>  </li>";
+                    html += "</a> <button class=\"btn fillvote btn-danger\">Already Added!</button>  </li>";
                  }else{
                     html += "</a> <button class=\"btn filldata\">Add!</button>  </li>";
                     }

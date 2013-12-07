@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, IntegerField
 from django.core.exceptions import ValidationError
 from django.forms.widgets import HiddenInput
 from django.contrib.auth.models import User
@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from .models import Choice, Song
 
 class AddSongForm(ModelForm):
+    pk = IntegerField(required=False)
+
     class Meta:
         model = Song
 
@@ -14,11 +16,13 @@ class AddSongForm(ModelForm):
         self.fields['name'].widget = HiddenInput()
         self.fields['artist'].widget = HiddenInput()
         self.fields['lasturl'].widget = HiddenInput()
+        self.fields['pk'].widget = HiddenInput()
 
     def clean(self):
         lasturl = self.cleaned_data.get('lasturl')
+        pk = self.cleaned_data.get('pk')
         lasturl_in_songs = Song.objects.filter(lasturl=lasturl)
-        if lasturl_in_songs:
+        if not pk and lasturl_in_songs:
             raise ValidationError("Song already in database.")
         return self.cleaned_data
 

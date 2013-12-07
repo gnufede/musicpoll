@@ -48,7 +48,10 @@ class AddSongView(CreateView):
     success_url = reverse_lazy('choices')
 
     def form_valid(self, form):
-        self.object = form.save()
+        if not form.cleaned_data['pk']:
+            self.object = form.save()
+        else:
+            self.object = Song.objects.get(id=form.cleaned_data['pk'])
         user = self.request.user
         song = self.object
         previous_index = Choice.objects.filter(user=self.request.user).\
