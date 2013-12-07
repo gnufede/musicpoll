@@ -1,5 +1,5 @@
 from django.http import Http404, HttpResponse
-from django.views.generic import ListView, CreateView, View
+from django.views.generic import ListView, CreateView, DeleteView, View
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.models import User
@@ -8,7 +8,7 @@ from django.db.models import Count, Sum
 import json
 
 from .models import Choice, Song
-from .forms import ChoiceForm, AddSongForm
+from .forms import ChoiceForm, AddSongForm, ChoiceDeleteForm
 
 from django.core import serializers
 
@@ -110,6 +110,17 @@ class VoteView(CreateView):
         form.instance.user = self.request.user
         return super(VoteView, self).form_valid(form)
 
+class RemoveChoiceView(DeleteView):
+    model = Choice
+#    form_class = ChoiceDeleteForm
+    success_url ='/choices'
+
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user. """
+        obj = super(RemoveChoiceView, self).get_object()
+        if not obj.user == self.request.user:
+            raise Http404
+        return obj
 
 class VoteListView(ListView):
     model = Choice

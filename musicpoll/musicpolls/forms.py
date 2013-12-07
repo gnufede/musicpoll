@@ -34,6 +34,11 @@ class AddSongForm(ModelForm):
         return self.cleaned_data
 
 
+class ChoiceDeleteForm(ModelForm):
+
+    class Meta:
+        model = Choice
+
 
 class ChoiceForm(ModelForm):
 

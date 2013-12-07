@@ -3,7 +3,8 @@ from django.conf.urls import *
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import TemplateView
 from .views import ChoiceListView, VoteView, VoteListView, AddSongView,\
-                    AjaxSongListView, SongsJsonView, MySongsJsonView
+                    AjaxSongListView, SongsJsonView, MySongsJsonView,\
+                    RemoveChoiceView
 
 
 urlpatterns = patterns(
@@ -13,6 +14,7 @@ urlpatterns = patterns(
 #    url(r'^vote/$', VoteView.as_view(),name='vote'),
     url(r'^vote/$', AddSongView.as_view(),name='vote'),
     url(r'^search/$', AddSongView.as_view(),name='search'),
+    url(r'^(?P<pk>\d+)/removechoice/$', RemoveChoiceView.as_view(),name='removechoice'),
 #    url(r'^songlistjson/$', AjaxSongListView.as_view(),name='songlistjson'),
     url(r'^songlistjson/$', SongsJsonView.as_view(),name='songlistjson'),
     url(r'^mysonglistjson/$', MySongsJsonView.as_view(),name='mysonglistjson'),

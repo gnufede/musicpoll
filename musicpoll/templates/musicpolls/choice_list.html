@@ -29,12 +29,42 @@ My Votes
 
     <p>
 -->
+
+    <form id="removechoice" class="removechoice" method="post" action="">
+    <fieldset>
+
+        {% csrf_token %}
+
+        <div>{{form|crispy}}</div>
+
+        <input type="hidden" name="next" value="{{next}}" />
+
+    </fieldset>
+    </form>
     <h3>Votos<h3>
     <ul>
         {% for choice in object_list %}
-        <li> {{choice.index}}: {{ choice.song.name }} - {{choice.song.artist}}</li>
+        <li><a href={{choice.song.lasturl}} >{{ choice.song.name }} - {{ choice.song.artist }}</a>
+        <a class="remove btn btn-danger" href=/{{choice.id}}/removechoice>"Remove vote"</a> 
+        </li>
         {% endfor %}
     </ul>
 
     <div class="sep">&nbsp;</div>
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript">
+
+$(document).ready(function() {
+//    $('#dynamic-content').load('/songlistjson');
+/*    $('body').on('click', '.remove', function () {
+        var id = $(this).attr('data-id');
+         $('#id_pk').val(id);
+         document.getElementById("removechoice").action = id+"/removechoice";
+         document.getElementById("removechoice").submit();
+    });
+    */
+</script>
+
 {% endblock %}
