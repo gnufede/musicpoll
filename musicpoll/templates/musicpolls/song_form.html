@@ -26,9 +26,19 @@ Search and Vote
     </form>
 
 <ul id="dynamic-content"></ul>
-<ul id="result"></ul>
+<ul id="result" class="results"></ul>
     <p>
     <div class="sep">&nbsp;</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+img.smallimg{width:126px; height:126px;padding-right:12px;}
+li.results{list-style-type: none;
+padding-top: 12px;
+}
+
+</style>
 {% endblock %}
 
 {% block extra_js %}
@@ -111,14 +121,14 @@ $("#searchForm").submit(function(event) {
                     count = listitem.count;
                     }
                 });
-                html += "<li data-name=\"" + item.name + "\" data-artist=\"" +item.artist+ "\" data-url=\""+ item.url+"\"";
+                html += "<li class=\"results\" data-name=\"" + item.name + "\" data-artist=\"" +item.artist+ "\" data-url=\""+ item.url+"\"";
                 if (already_added){
                     html += " data-id="+pk+" data-count=" +count
                  }
                 html += "><a href=\""+item.url+"\">"
                 if (images != undefined && images[2]['#text'] != undefined){
                     imageurl=images[2]['#text']; 
-                    html += "<img src=\"" +imageurl+ "\" />"
+                    html += "<img class=\"smallimg\" src=\"" +imageurl+ "\" />"
                 }
                 html += item.name + " - " + item.artist ;
                 if (already_voted){
@@ -127,7 +137,7 @@ $("#searchForm").submit(function(event) {
                else if (already_added){
                     html += "</a> <button class=\"btn fillvote btn-success\">"+count+" already voted!</button>  </li>";
                  }else{
-                    html += "</a> <button class=\"btn filldata\">Add!</button>  </li>";
+                    html += "</a> <button class=\"btn filldata\">Vote!</button>  </li>";
                     }
                // });
     });
