@@ -4,22 +4,24 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 
+{% block page_title%}
+     {% trans "Login" %}
+{% endblock %}
+
 {% block main %}
 
+<div class="col-md-4">
     <form class="login" method="post" action="{% url 'django.contrib.auth.views.login' %}">
-    <fieldset>
-        <legend>{% trans "Login" %}</legend>
 
         {% csrf_token %}
 
         <div>{{form|crispy}}</div>
         <div class="ctrlHolder">
-            <button type="submit">{% trans "Sign in" %}</button>
+            <button class="btn btn-primary" type="submit">{% trans "Sign in" %}</button>
         </div>
 
         <input type="hidden" name="next" value="{{next}}" />
 
-    </fieldset>
     </form>
     <hr />
 
@@ -27,12 +29,10 @@
         <a href="{% url 'password_reset' %}">
         {% trans "Did you forget your password?" %}</a>
     </p>
-    <p>
-    additional parameters:
-        <ul>
-            <li>site: {{site}}</li>
-            <li>site_name: {{site_name}}</li>
-        </ul>
+    <p class="right">
+        <a href="{% url 'signup' %}">
+        {% trans "Sign Up" %}</a>
     </p>
     <div class="sep">&nbsp;</div>
+</div>
 {% endblock %}

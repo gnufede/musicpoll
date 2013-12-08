@@ -1,50 +1,16 @@
-from django.http import Http404, HttpResponse
-from django.views.generic import ListView, CreateView, DeleteView, View
+from django.db.models import Count, Sum
+from django.core import serializers
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.models import User
-from django.db.models import Count, Sum
+from django.http import Http404, HttpResponse
+from django.views.generic import ListView, CreateView, DeleteView, View
 
 import json
 
 from .models import Choice, Song
 from .forms import ChoiceForm, AddSongForm, ChoiceDeleteForm
 
-from django.core import serializers
-
-class AJAXListMixin(object):
-
-     def dispatch(self, request, *args, **kwargs):
-         if not request.is_ajax():
-             raise Http404("This is an ajax view, friend.")
-         return super(AJAXListMixin, self).dispatch(request, *args, **kwargs)
-
-     def get_queryset(self):
-         return (
-            super(AJAXListMixin, self)
-            .get_queryset()
-            .filter(ajaxy_param=self.request.GET.get('some_ajaxy_param'))
-         )
-
-     def get(self, request, *args, **kwargs):
-         return HttpResponse(serializers.serialize('json', self.get_queryset()))
-
-
-class AjaxSongListView(AJAXListMixin, ListView):
-    model = Song
-
-    def get_queryset(self):
-        songs = Song.objects.all().annotate(count=Count('choice'))
-#        items = [(song.pk, song.name, song.artist, song.last_url, song.choice_set.count())]
-#        for song in songs:
-#            song.fields['count'] = song.choice_set.count()
-        return songs #list(songs.values())
-
-    def get(self, request, *args, **kwargs):
-        return HttpResponse(serializers.serialize('json', self.get_queryset(),\
-             use_natural_keys=True
-
-             ))
 
 class MySongsJsonView(View):
 
@@ -53,6 +19,7 @@ class MySongsJsonView(View):
         songs = [choice.song for choice in choices]
         result = [ob.as_json(count=0) for ob in songs]
         return HttpResponse(json.dumps(result), mimetype="application/json" )
+
 
 class SongsJsonView(View):
 
@@ -96,6 +63,7 @@ class AddSongView(CreateView):
             new_choice.save()
         return super(AddSongView, self).form_valid(form)
 
+
 class VoteView(CreateView):
     model = Choice
     form_class = ChoiceForm
@@ -110,9 +78,9 @@ class VoteView(CreateView):
         form.instance.user = self.request.user
         return super(VoteView, self).form_valid(form)
 
+
 class RemoveChoiceView(DeleteView):
     model = Choice
-#    form_class = ChoiceDeleteForm
     success_url ='/choices'
 
     def get_object(self, queryset=None):
@@ -121,6 +89,7 @@ class RemoveChoiceView(DeleteView):
         if not obj.user == self.request.user:
             raise Http404
         return obj
+
 
 class VoteListView(ListView):
     model = Choice

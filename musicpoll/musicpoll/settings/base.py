@@ -254,3 +254,5 @@ WSGI_APPLICATION = '%s.wsgi.application' % SITE_NAME
 LOGIN_REDIRECT_URL="/choices"
 
 LOGIN_URL="/login"
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

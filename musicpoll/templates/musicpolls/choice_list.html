@@ -44,8 +44,8 @@ My Votes
     <h3>Votos<h3>
     <ul>
         {% for choice in object_list %}
-        <li><a href={{choice.song.lasturl}} >{{ choice.song.name }} - {{ choice.song.artist }}</a>
-        <a class="remove btn btn-danger" href=/{{choice.id}}/removechoice>"Remove vote"</a> 
+        <li class="vote"><a class="choice" href={{choice.song.lasturl}} >{{ choice.song.name }} - {{ choice.song.artist }}</a>
+        <a class="remove btn btn-danger hidden" href=/{{choice.id}}/removechoice>Delete</a> 
         </li>
         {% endfor %}
     </ul>
@@ -57,6 +57,14 @@ My Votes
 <script type="text/javascript">
 
 $(document).ready(function() {
+
+$('li.vote').on('mouseover', function() {
+    $(this).find('a.remove').removeClass('hidden') ;
+})
+.on('mouseout', function() {
+    $(this).find('a.remove').addClass('hidden') ;
+});
+            });
 //    $('#dynamic-content').load('/songlistjson');
 /*    $('body').on('click', '.remove', function () {
         var id = $(this).attr('data-id');

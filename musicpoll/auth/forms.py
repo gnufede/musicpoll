@@ -32,10 +32,7 @@ class UserCreationForm(auth.forms.UserCreationForm):
         return retval
     
 class EmailAuthenticationForm(auth.forms.AuthenticationForm):
-    #email = forms.EmailField(label=_(u"Your email address"),
-    #                         max_length=75)
-
-
+    
     def clean(self):
         given_email = self.cleaned_data.get(u'username')
         given_password = self.cleaned_data.get(u'password')

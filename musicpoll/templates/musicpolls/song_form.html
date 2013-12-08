@@ -9,8 +9,12 @@ Search and Vote
 {% block main %}
 
    <form class="form-search" action="/wphmusic/" id="searchForm">
-   <input class="search-query" type="text" name="s" placeholder="Search..." />
-   <button class="btn" type="submit" value="Search" >Search</button>
+       <div class="input-group input-group-lg">
+           <input class="form-control search-query" type="text" name="s" placeholder="Search..." />
+           <span class="input-group-btn">
+                <button class="btn btn-default" type="submit" value="Search" >Search</button>
+           </span>
+       </div>
    </form>
 
     <form id="addsong" class="addsong" method="post" action="{% url 'search' %}">
@@ -72,19 +76,26 @@ var lista = (function () {
 })(); 
 
 $(document).ready(function() {
+$('body').on('mouseover', 'li.results', function() {
+    $(this).find('button.vote').removeClass('hidden') ;
+})
+.on('mouseout','li.results', function() {
+    $(this).find('button.vote').addClass('hidden') ;
+});
+
 //    $('#dynamic-content').load('/songlistjson');
     $('body').on('click', '.filldata', function () {
-         $('#id_name').val($(this).parent().attr('data-name'));
-         $('#id_artist').val($(this).parent().attr('data-artist'));
-         $('#id_lasturl').val($(this).parent().attr('data-url'));
-         $('#id_pk').val($(this).parent().attr('data-id'));
+         $('#id_name').val($(this).parent().parent().attr('data-name'));
+         $('#id_artist').val($(this).parent().parent().attr('data-artist'));
+         $('#id_lasturl').val($(this).parent().parent().attr('data-url'));
+         $('#id_pk').val($(this).parent().parent().attr('data-id'));
          document.getElementById("addsong").submit();
     });
     $('body').on('click', '.fillvote', function () {
-         $('#id_name').val($(this).parent().attr('data-name'));
-         $('#id_artist').val($(this).parent().attr('data-artist'));
-         $('#id_lasturl').val($(this).parent().attr('data-url'));
-         $('#id_pk').val($(this).parent().attr('data-id'));
+         $('#id_name').val($(this).parent().parent().attr('data-name'));
+         $('#id_artist').val($(this).parent().parent().attr('data-artist'));
+         $('#id_lasturl').val($(this).parent().parent().attr('data-url'));
+         $('#id_pk').val($(this).parent().parent().attr('data-id'));
          document.getElementById("addsong").submit();
     });
 });
@@ -125,19 +136,19 @@ $("#searchForm").submit(function(event) {
                 if (already_added){
                     html += " data-id="+pk+" data-count=" +count
                  }
-                html += "><div class="song"><a class="last" href=\""+item.url+"\">"
+                html += "><div class=\"song\"><a class=\"last\" href=\""+item.url+"\">"
                 if (images != undefined && images[2]['#text'] != undefined){
                     imageurl=images[2]['#text']; 
                     html += "<img class=\"smallimg\" src=\"" +imageurl+ "\" />"
                 }
                 html += item.name + " - " + item.artist ;
                 if (already_voted){
-                    html += "</a> <button class=\"btn btn-danger\"> You already voted!</button>";
+                    html += "</a> <span class=\"btn \"> You already voted!</span>";
                 }
                else if (already_added){
-                    html += "</a> <button class=\"btn fillvote btn-success\">"+count+" already voted!</button>";
+                    html += "</a> <button class=\"btn fillvote btn-lg btn-success\">"+count+" already voted, Vote!</button>";
                  }else{
-                    html += "</a> <button class=\"btn filldata\">Vote!</button>";
+                    html += "</a> <button class=\"vote btn filldata btn-primary hidden\">Vote!</button>";
                     }
                // });
                html += "</div></li>"
