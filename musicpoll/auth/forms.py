@@ -13,15 +13,28 @@ from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.sites.models import get_current_site
 from django.contrib.auth.tokens import default_token_generator
 
+from .models import SecretCode
 
+class UserCreationForm(auth.forms.UserCreationForm):
+    secret_code = forms.CharField()
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = User
+        fields = ("username", "email", "secret_code", "password1", "password2")
+
+    def is_valid(self, *args, **kwargs):
+        retval = super(UserCreationForm, self).is_valid()
+        if retval == True:
+            secret = SecretCode.objects.get(email=self.cleaned_data['email'])
+            if secret.secret_code != self.cleaned_data['secret_code']:
+                retval = False
+        return retval
+    
 class EmailAuthenticationForm(auth.forms.AuthenticationForm):
     #email = forms.EmailField(label=_(u"Your email address"),
     #                         max_length=75)
 
-    def __init__(self, *args, **kwargs):
-        super(EmailAuthenticationForm, self).__init__(*args, **kwargs)
-        #self.fields.insert(0, 'email', self.fields.pop('email'))
-        #del self.fields['username']
 
     def clean(self):
         given_email = self.cleaned_data.get(u'username')
