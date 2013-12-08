@@ -1,1 +1,4 @@
 /*! project specific CSS goes here. */
+/*div.song{}*/
+li.vote{ min-height:38px; border:1px; margin:2px;}
+a.choice{ line-height:36px; border:1px; margin:2px;}
