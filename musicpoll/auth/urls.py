@@ -4,10 +4,12 @@ from django.core.urlresolvers import reverse_lazy
 
 from django.contrib.auth.views import *
 from auth.forms import EmailAuthenticationForm, SetPasswordDuringAccountInitForm
+from .views import register
 
 urlpatterns = patterns(
     '',
 
+    url(r'^signup/$', register, name='signup'),
     url(r'^logout/$', logout_then_login, name='logout'),
     url(r'^login/$', login,
         kwargs={
