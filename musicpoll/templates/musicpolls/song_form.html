@@ -125,21 +125,22 @@ $("#searchForm").submit(function(event) {
                 if (already_added){
                     html += " data-id="+pk+" data-count=" +count
                  }
-                html += "><a href=\""+item.url+"\">"
+                html += "><div class="song"><a class="last" href=\""+item.url+"\">"
                 if (images != undefined && images[2]['#text'] != undefined){
                     imageurl=images[2]['#text']; 
                     html += "<img class=\"smallimg\" src=\"" +imageurl+ "\" />"
                 }
                 html += item.name + " - " + item.artist ;
                 if (already_voted){
-                    html += "</a> <button class=\"btn btn-danger\"> You already voted!</button>  </li>";
+                    html += "</a> <button class=\"btn btn-danger\"> You already voted!</button>";
                 }
                else if (already_added){
-                    html += "</a> <button class=\"btn fillvote btn-success\">"+count+" already voted!</button>  </li>";
+                    html += "</a> <button class=\"btn fillvote btn-success\">"+count+" already voted!</button>";
                  }else{
-                    html += "</a> <button class=\"btn filldata\">Vote!</button>  </li>";
+                    html += "</a> <button class=\"btn filldata\">Vote!</button>";
                     }
                // });
+               html += "</div></li>"
     });
         $('#result').append(html);
 
