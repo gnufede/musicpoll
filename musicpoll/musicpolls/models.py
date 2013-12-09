@@ -8,16 +8,18 @@ class Song(models.Model):
     name = models.CharField(max_length=500)
     artist = models.CharField(max_length=500)
     lasturl = models.CharField(max_length=500)
+    photourl = models.CharField(max_length=500)
 
     def __unicode__(self):
         return self.name + ' - ' + self.artist
 
     def as_json(self, count):
         return dict(
-            id=self.id, 
-            name=self.name, 
+            id=self.id,
+            name=self.name,
             artist=self.artist,
             lasturl=self.lasturl,
+            photourl=self.lasturl,
             count=count
             )
 

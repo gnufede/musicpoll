@@ -96,6 +96,7 @@ class VoteListView(ListView):
 
     def get_queryset(self):
         return Choice.objects.all().\
-                values('song__lasturl', 'song__name', 'song__artist').\
+                values('song__photourl', 'song__lasturl',\
+                       'song__name', 'song__artist').\
                 annotate(dcount=Count('song'),votes=Sum('index')).\
                 order_by('-votes')

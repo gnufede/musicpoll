@@ -88,6 +88,7 @@ $('body').on('mouseover', 'li.results', function() {
          $('#id_name').val($(this).parent().parent().attr('data-name'));
          $('#id_artist').val($(this).parent().parent().attr('data-artist'));
          $('#id_lasturl').val($(this).parent().parent().attr('data-url'));
+         $('#id_photourl').val($(this).parent().parent().attr('data-pic'));
          $('#id_pk').val($(this).parent().parent().attr('data-id'));
          document.getElementById("addsong").submit();
     });
@@ -95,6 +96,7 @@ $('body').on('mouseover', 'li.results', function() {
          $('#id_name').val($(this).parent().parent().attr('data-name'));
          $('#id_artist').val($(this).parent().parent().attr('data-artist'));
          $('#id_lasturl').val($(this).parent().parent().attr('data-url'));
+         $('#id_photourl').val($(this).parent().parent().attr('data-pic'));
          $('#id_pk').val($(this).parent().parent().attr('data-id'));
          document.getElementById("addsong").submit();
     });
@@ -132,15 +134,16 @@ $("#searchForm").submit(function(event) {
                     count = listitem.count;
                     }
                 });
-                html += "<li class=\"results\" data-name=\"" + item.name + "\" data-artist=\"" +item.artist+ "\" data-url=\""+ item.url+"\"";
+                imageurl="/static/emptyphoto.png";
+                if (images != undefined && images[2]['#text'] != undefined){
+                    imageurl=images[2]['#text']; 
+                }
+                html += "<li class=\"results\" data-name=\"" + item.name + "\" data-artist=\"" +item.artist+ "\" data-pic=\""+ imageurl+ "\" data-url=\""+ item.url+"\"";
                 if (already_added){
                     html += " data-id="+pk+" data-count=" +count
                  }
                 html += "><div class=\"song\"><a class=\"last\" href=\""+item.url+"\">"
-                if (images != undefined && images[2]['#text'] != undefined){
-                    imageurl=images[2]['#text']; 
-                    html += "<img class=\"smallimg\" src=\"" +imageurl+ "\" />"
-                }
+                html += "<img class=\"smallimg\" src=\"" +imageurl+ "\" />"
                 html += item.name + " - " + item.artist ;
                 if (already_voted){
                     html += "</a> <span class=\"btn \"> You already voted!</span>";

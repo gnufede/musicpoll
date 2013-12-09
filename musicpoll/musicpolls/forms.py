@@ -17,6 +17,7 @@ class AddSongForm(ModelForm):
         self.fields['name'].widget = HiddenInput()
         self.fields['artist'].widget = HiddenInput()
         self.fields['lasturl'].widget = HiddenInput()
+        self.fields['photourl'].widget = HiddenInput()
         self.fields['pk'].widget = HiddenInput()
 
     def clean(self):

@@ -2,3 +2,8 @@
 /*div.song{}*/
 li.vote{ min-height:38px; border:1px; margin:2px;}
 a.choice{ line-height:36px; border:1px; margin:2px;}
+img.smallimg{width:126px; height:126px;padding-right:12px;}
+li.results{list-style-type: none;
+padding-top: 12px;
+}
+

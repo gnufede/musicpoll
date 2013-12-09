@@ -44,7 +44,9 @@ My Votes
     <h3>Votos<h3>
     <ul>
         {% for choice in object_list %}
-        <li class="vote"><a class="choice" href={{choice.song.lasturl}} >{{ choice.song.name }} - {{ choice.song.artist }}</a>
+        <li class="vote results"><a class="choice" href={{choice.song.lasturl}} >
+            <img class="smallimg" src={{ choice.song.photourl }}>
+            {{ choice.song.name }} - {{ choice.song.artist }}</a>
         <a class="remove btn btn-danger hidden" href=/{{choice.id}}/removechoice>Delete</a> 
         </li>
         {% endfor %}
