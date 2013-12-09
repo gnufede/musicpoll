@@ -2,8 +2,15 @@
 /*div.song{}*/
 li.vote{ min-height:38px; border:1px; margin:2px;}
 a.choice{ line-height:36px; border:1px; margin:2px;}
+a.song{ line-height:36px; border:1px; margin:2px;display:table-cell;width:50%;}
 img.smallimg{width:126px; height:126px;padding-right:12px;}
 li.results{list-style-type: none;padding-top: 12px;}
-div.barchart{display:inline-block;width:40%}
-div.filled{background:lightblue;text-align:right}
+div.results{display:table;width:100%;}
+div.barchart{display:inline-block;width:100%;float:right;display:table-cell;}
+div.filled{background:lightblue;text-align:right;float:right;
+height: 35px;
+padding: 6px;
+margin-bottom: -8px;
+border-radius: 4px;
+}
 
