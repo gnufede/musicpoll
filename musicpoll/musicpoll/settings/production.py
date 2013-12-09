@@ -63,11 +63,11 @@ ALLOWED_HOSTS = ['*']
 # Static asset configuration
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-STATIC_ROOT = os.path.join(SITE_ROOT, 'musicpoll/static')
+STATIC_ROOT = os.path.join(SITE_ROOT, 'static')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(SITE_ROOT, 'musicpoll/static'),
+    os.path.join(SITE_ROOT, 'static'),
 )
 
 
