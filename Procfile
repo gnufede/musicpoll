@@ -1,1 +1,1 @@
-web: gunicorn musicpoll.wsgi
+web: gunicorn musicpoll.musicpoll.wsgi
