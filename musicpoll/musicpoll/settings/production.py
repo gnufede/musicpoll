@@ -1,7 +1,7 @@
 """Production settings and globals."""
 
 
-from os import environ, path
+from os import environ
 
 from base import *
 
@@ -61,13 +61,14 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['*']
 
 # Static asset configuration
-#BASE_DIR = path.dirname(path.abspath(__file__))
-#STATIC_ROOT = path.join(BASE_DIR, '/static/')
-#STATIC_URL = '/static/'
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
+STATIC_URL = '/static/'
 
-#STATICFILES_DIRS = (
-#    path.join(BASE_DIR, 'static'),
-#)
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 
 ########## CACHE CONFIGURATION
