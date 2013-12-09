@@ -1,4 +1,4 @@
-from django.db.models import Count, Sum
+from django.db.models import Count, Sum, Max
 from django.core import serializers
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse_lazy
@@ -94,9 +94,23 @@ class RemoveChoiceView(DeleteView):
 class VoteListView(ListView):
     model = Choice
 
+    def get_context_data(self, **kwargs):
+        context = super(VoteListView, self).get_context_data(**kwargs)
+        maxvotes = Choice.objects.\
+                annotate(dcount=Count('song')).\
+                aggregate(Max('dcount'))['dcount__max']
+        context.update({
+            'maxvotes': maxvotes 
+        })
+        return context
+
     def get_queryset(self):
         return Choice.objects.all().\
                 values('song__photourl', 'song__lasturl',\
-                       'song__name', 'song__artist').\
-                annotate(dcount=Count('song'),votes=Sum('index')).\
-                order_by('-votes')
+                         'song__name', 'song__artist').\
+                annotate(dcount=Count('song')).\
+                order_by('-dcount')
+#                aggregate(Max('dcount'))
+
+                #.
+                #order_by('-votes')

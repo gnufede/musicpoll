@@ -11,11 +11,20 @@ All Votes
     <h3>Votos<h3>
     <ul>
         {% for choice in object_list %}
-        <li class="vote results"><a class="choice" href={{choice.song__lasturl}} >
-            <img class="smallimg" src={{ choice.song__photourl }}>
-            {{ choice.song__name }} - {{ choice.song__artist }}</a>: {{ choice.dcount }} </li>
+        <li class="vote results"><a class="choice" href={{choice.song__lasturl}}><img class="smallimg" src={{ choice.song__photourl }}>{{ choice.song__name }} - {{ choice.song__artist }}</a><div class="barchart"><div class="filled" data-dcount={{ choice.dcount }}>{{ choice.dcount }}</div></div> </li>
         {% endfor %}
     </ul>
 
     <div class="sep">&nbsp;</div>
+{% endblock %}
+{% block extra_js %}
+<script type="text/javascript">
+$(document).ready(function() {
+var maxvotes={{ maxvotes }};
+$('div.filled').each(function(){
+$(this).css("width",((100*$(this).attr('data-dcount'))/maxvotes)+"%");
+});
+})
+
+</script>
 {% endblock %}
