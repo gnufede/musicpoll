@@ -1,10 +1,12 @@
-from django.db.models import Count, Sum, Max
 from django.core import serializers
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.models import User
+from django.db import connection
+from django.db.models import Count, Sum, Max
 from django.http import Http404, HttpResponse
 from django.views.generic import ListView, CreateView, DeleteView, View
+
 
 import json
 
@@ -96,12 +98,10 @@ class VoteListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(VoteListView, self).get_context_data(**kwargs)
-        maxvotes = Choice.objects.\
-                annotate(dcount=Count('song')).\
-                aggregate(Max('dcount'))['dcount__max']
-        context.update({
-            'maxvotes': maxvotes 
-        })
+        cursor = connection.cursor()
+        cursor.execute('select (count (user_id)) as count from musicpolls_choice group by song_id order by count desc limit 1')
+        maxvotes = cursor.fetchone()[0]
+        context['maxvotes'] = maxvotes
         return context
 
     def get_queryset(self):
