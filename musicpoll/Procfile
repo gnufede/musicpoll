@@ -1,1 +1,0 @@
-web: gunicorn musicpoll.wsgi
