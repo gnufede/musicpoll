@@ -20,8 +20,9 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     (r'^', include('auth.urls')),
     (r'^', include('musicpolls.urls')),
+    (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
 )
-if not settings.DEBUG:
-    urlpatterns += patterns('',
-        (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
-    )
+#if not settings.DEBUG:
+#    urlpatterns += patterns('',
+#        (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+#    )
