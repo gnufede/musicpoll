@@ -17,4 +17,5 @@ transition-duration: 2s;
 transition-timing-function: ease;
 transition-delay: 1s;
 }
+div.navbar-fixed-top{border-bottom:3px #555 dashed;}
 
