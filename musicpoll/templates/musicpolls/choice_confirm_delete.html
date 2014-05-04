@@ -1,13 +1,14 @@
 {% extends "content.html" %}
 {% block page_title %}
-Remove choice: {{object.song.name}}
+Eliminar voto: {{object.song.name}}
 {% endblock %}
 {% block main %}
 
 <form action="{% url 'removechoice' object.id %}" method="post">
 {% csrf_token %}
-    <p>Are you sure you want to remove {{ object.song.name }}?</p>
-    <input type="submit" value="Yes" class="btn btn-primary" />
+    <p>Realmente quieres borrar {{ object.song.name }}?</p>
+    <a href="{% url 'choices' %}" class="btn btn-default cancel">No lo tengo tan claro<a/>
+    <input type="submit" value="Clarísimamente" class="btn btn-primary" />
 </form>
 
 {% endblock %}

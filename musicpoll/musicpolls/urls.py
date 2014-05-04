@@ -23,4 +23,6 @@ urlpatterns = patterns(
         login_required(SongsJsonView.as_view()), name='songlistjson'),
     url(r'^mysonglistjson/$',
         login_required(MySongsJsonView.as_view()), name='mysonglistjson'),
+    url(r'^(?P<username>\w+)/choices/$',
+        login_required(ChoiceListView.as_view()), name='userchoices'),
 )

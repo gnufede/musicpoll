@@ -34,8 +34,11 @@ class SongsJsonView(View):
 class ChoiceListView(ListView):
     model = Choice
 
-    def get_queryset(self):
-        return Choice.objects.filter(user=self.request.user).order_by("-index")
+    def get_queryset(self,):
+        requested_user = User.objects.get(username=self.kwargs['username']) if\
+            'username' in self.kwargs and self.request.user.is_superuser else\
+            self.request.user
+        return Choice.objects.filter(user=requested_user).order_by("-index")
 
 
 class AddSongView(CreateView):
@@ -49,18 +52,14 @@ class AddSongView(CreateView):
         return kwargs
 
     def form_valid(self, form):
-        if not form.cleaned_data['pk']:
-            self.object = form.save()
-        else:
-            self.object = Song.objects.get(id=form.cleaned_data['pk'])
+        self.object = Song.objects.get(id=form.cleaned_data['pk']) if\
+            form.cleaned_data['pk'] else form.save()
         user = self.request.user
         song = self.object
-        previous_index = Choice.objects.filter(user=self.request.user).\
+        previous_index = Choice.objects.filter(user=user).\
                 order_by('-index').last()
-        index = 10
-        if previous_index:
-            index = previous_index.index-1
-        if index > 0:
+        index = previous_index.index-1 if previous_index else 10
+        if index > 0 or 'Litri' == user.username:
             new_choice = Choice(user=user, song=song, index=index)
             new_choice.save()
         return super(AddSongView, self).form_valid(form)
