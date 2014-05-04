@@ -37,7 +37,6 @@ Busca y Vota
 
 {% block extra_css %}
 <style>
-img.smallimg{width:126px; height:126px;padding-right:12px;}
 li.results{list-style-type: none;
 padding-top: 12px;
 }
@@ -76,6 +75,9 @@ var lista = (function () {
 })(); 
 
 $(document).ready(function() {
+
+document.mq = window.matchMedia( "(min-width: 500px)" );
+
 $('body').on('mouseover', 'li.results', function() {
     $(this).find('button.vote').removeClass('hidden') ;
 })
@@ -93,11 +95,11 @@ $('body').on('mouseover', 'li.results', function() {
          document.getElementById("addsong").submit();
     });
     $('body').on('click', '.fillvote', function () {
-         $('#id_name').val($(this).parent().parent().attr('data-name'));
-         $('#id_artist').val($(this).parent().parent().attr('data-artist'));
-         $('#id_lasturl').val($(this).parent().parent().attr('data-url'));
-         $('#id_photourl').val($(this).parent().parent().attr('data-pic'));
-         $('#id_pk').val($(this).parent().parent().attr('data-id'));
+         $('#id_name').val($(this).attr('data-name'));
+         $('#id_artist').val($(this).attr('data-artist'));
+         $('#id_lasturl').val($(this).attr('data-url'));
+         $('#id_photourl').val($(this).attr('data-pic'));
+         $('#id_pk').val($(this).attr('data-id'));
          document.getElementById("addsong").submit();
     });
 });
@@ -138,18 +140,28 @@ $("#searchForm").submit(function(event) {
                 if (images != undefined && images[2]['#text'] != undefined){
                     imageurl=images[2]['#text']; 
                 }
-                html += "<li class=\"results\" data-name=\"" + item.name + "\" data-artist=\"" +item.artist+ "\" data-pic=\""+ imageurl+ "\" data-url=\""+ item.url+"\"";
+                html += "<li class=\"results"
+                if (! document.mq.matches){
+                    html += " fillvote "
+                }
+                html += "\" data-name=\"" + item.name + "\" data-artist=\"" +item.artist+ "\" data-pic=\""+ imageurl+ "\" data-url=\""+ item.url+"\"";
                 if (already_added){
                     html += " data-id="+pk+" data-count=" +count
                  }
-                html += "><div class=\"song\"><a class=\"last\" href=\""+item.url+"\">"
+                html += "><div class=\"song\"><a class=\"last "
+                if (! document.mq.matches){
+                    html += " \" >"
+                }
+                else{
+                    html += "\" href=\""+item.url+"\">"
+                }
                 html += "<img class=\"smallimg\" src=\"" +imageurl+ "\" />"
                 html += item.name + " - " + item.artist ;
                 if (already_voted){
                     html += "</a> <span class=\"btn  some-margin-left\"> Ya has votado ésta!</span>";
                 }
                else if (already_added && count>0){
-                    html += "</a> <button class=\"btn fillvote btn-lg btn-success some-margin-left\">"+count+" han votado ésta, Vota!</button>";
+                    html += "</a> <button class=\"btn filldata btn-lg btn-success some-margin-left\">"+count+" han votado ésta, Vota!</button>";
                  }else{
                     html += "</a> <button class=\"vote btn filldata btn-primary hidden some-margin-left\">Vota!</button>";
                     }

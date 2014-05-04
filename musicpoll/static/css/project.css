@@ -3,7 +3,7 @@
 li.vote{ min-height:38px; border:1px; margin:2px;}
 a.choice{ line-height:36px; border:1px; margin:2px;}
 a.song{ line-height:36px; border:1px; margin:2px;display:table-cell;width:50%;}
-img.smallimg{width:126px; height:126px;padding-right:12px;}
+img.smallimg{max-width:126px; max-height:126px; padding-right:12px; width:20%; }
 li.results{list-style-type: none;padding-top: 12px;}
 div.results{display:table;width:100%;}
 div.barchart{display:inline-block;width:100%;float:right;display:table-cell;}
