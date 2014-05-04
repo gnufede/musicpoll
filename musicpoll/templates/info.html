@@ -1,0 +1,31 @@
+{% extends "content.html" %}
+
+{% load url from future %}
+{% load i18n %}
+
+{% block page_title%}
+     {% trans "Algo de información, para quienes pierden las tarjetas" %}
+{% endblock %}
+
+{% block main %}
+<div class="jumbotron">
+<p>
+    Hola! Espero que no hayáis perdido la tarjetita de la invitación, pero por 
+    si acaso...
+</p>
+<u>
+    <li>Nos casamos el 23 de agosto</li>
+    <li>A las 20:30 horas</li>
+    <li>En la Finca Solimpar</li>
+    <li>A la cual se llega por la salida 7 de la carretera de Toledo</li>
+</u>
+<p>
+<p>    Sois una parte muy importante en nuestra boda, por eso queremos que participéis y os lo paséis lo mejor posible.
+
+</p>
+<p>
+       Por eso en esta web podéis ayudarnos a <a href="{% url "search" %}">elegir las canciones</a> que queréis que se oigan en el baile. ¡Ojo! ¡Deben ser canciones para bailar! 
+       ¡No queremos a nadie parado en la barra!
+</p>
+</div>
+{% endblock %}

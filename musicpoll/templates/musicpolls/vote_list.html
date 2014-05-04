@@ -4,14 +4,13 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 {% block page_title %}
-All Votes
+Todos los votos
 {% endblock %}
 {% block main %}
 
-    <h3>Votos<h3>
     <ul>
         {% for choice in object_list %}
-        <li class="vote results"><div class="vote results"><a class="song" href={{choice.song__lasturl}}><img class="smallimg" src={{ choice.song__photourl }}>{{ choice.song__name }} - {{ choice.song__artist }}</a><div class="barchart pullright"><div class="filled pullright" data-dcount={{ choice.dcount }}>{{ choice.dcount }}</div></div></div> </li>
+        <li class="vote results"><div class="vote results"><a class="song" href={{choice.song__lasturl}}><img class="smallimg" src={{ choice.song__photourl }}>{{ choice.song__name }} - {{ choice.song__artist }}</a><div class="barchart pullright"><div class="filled pullright" data-dcount={{ choice.dcount }}>{{ choice.dcount }}</div><div class="square"></div></div></div> </li>
         {% endfor %}
     </ul>
 
@@ -22,7 +21,7 @@ All Votes
 $(document).ready(function() {
 var maxvotes={{ maxvotes }};
 $('div.filled').each(function(){
-$(this).css("width",((100*$(this).attr('data-dcount'))/maxvotes)+"%");
+$(this).css("width",((90*$(this).attr('data-dcount'))/maxvotes)+"%");
 });
 })
 

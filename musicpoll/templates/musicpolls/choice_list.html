@@ -4,7 +4,7 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 {% block page_title %}
-My Votes
+Los Votos de {{user.username}} (sí, los tuyos)
 {% endblock %}
 
 {% block main %}
@@ -47,7 +47,7 @@ My Votes
         <li class="vote results"><a class="choice" href={{choice.song.lasturl}} >
             <img class="smallimg" src={{ choice.song.photourl }}>
             {{ choice.song.name }} - {{ choice.song.artist }}</a>
-        <a class="remove btn btn-danger hidden" href=/{{choice.id}}/removechoice>Delete</a> 
+        <a class="remove btn btn-danger hidden some-margin-left" href=/{{choice.id}}/removechoice>Eliminar</a> 
         </li>
         {% endfor %}
     </ul>

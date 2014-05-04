@@ -1,0 +1,33 @@
+{% extends "content.html" %}
+
+{% load url from future %}
+{% load i18n %}
+
+{% block no_container %}
+<div id="map-canvas"/>
+{% endblock %}
+{% block extra_js %}
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDSpWgb8YG2UFtEa8q8QZHCtB1LTzjwdE&sensor=true">
+    </script>
+    <script type="text/javascript">
+      function initialize() {
+      var myLatlng = new google.maps.LatLng(40.358579,-3.724194);
+        var mapOptions = {
+          center: myLatlng,
+          zoom: 12 
+        };
+        var map = new google.maps.Map(document.getElementById("map-canvas"),
+            mapOptions);
+        var marker = new google.maps.Marker({
+            position: myLatlng,
+            map: map,
+            title:"Nos casamos aquí!"
+        });
+        marker.setMap(map);
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+// To add the marker to the map, use the 'map' property
+    </script>
+{% endblock %}

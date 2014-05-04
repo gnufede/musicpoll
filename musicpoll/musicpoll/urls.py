@@ -7,6 +7,8 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', TemplateView.as_view(template_name='base.html')),
+    url(r'^info$', TemplateView.as_view(template_name='info.html')),
+    url(r'^map$', TemplateView.as_view(template_name='map.html')),
 
     # Examples:
     # url(r'^$', 'musicpoll.views.home', name='home'),

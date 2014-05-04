@@ -5,19 +5,19 @@
 {% load crispy_forms_tags %}
 
 {% block page_title%}
-     {% trans "Login" %}
+     {% trans "Entrar" %}
 {% endblock %}
 
 {% block main %}
 
-<div class="col-md-4">
+<div class="jumbotron">
     <form class="login" method="post" action="{% url 'django.contrib.auth.views.login' %}">
 
         {% csrf_token %}
 
         <div>{{form|crispy}}</div>
         <div class="ctrlHolder">
-            <button class="btn btn-primary" type="submit">{% trans "Sign in" %}</button>
+            <button class="btn btn-primary" type="submit">{% trans "Entrar" %}</button>
         </div>
 
         <input type="hidden" name="next" value="{{next}}" />
@@ -26,13 +26,8 @@
     <hr />
 
     <p class="right">
-        <a href="{% url 'password_reset' %}">
-        {% trans "Did you forget your password?" %}</a>
-    </p>
-    <p class="right">
         <a href="{% url 'signup' %}">
-        {% trans "Sign Up" %}</a>
+        {% trans "Registrate" %}</a>
     </p>
-    <div class="sep">&nbsp;</div>
 </div>
 {% endblock %}

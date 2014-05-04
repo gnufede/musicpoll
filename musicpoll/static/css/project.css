@@ -7,8 +7,9 @@ img.smallimg{width:126px; height:126px;padding-right:12px;}
 li.results{list-style-type: none;padding-top: 12px;}
 div.results{display:table;width:100%;}
 div.barchart{display:inline-block;width:100%;float:right;display:table-cell;}
-div.filled{background:#74cfae;text-align:right;width:4%;color:white;
-height: 35px;
+
+div.filled{background:#53bdab;text-align:right;width:4%;color:white;
+height: 34px;
 padding: 6px;
 margin-bottom: -8px;
 /*border-radius: 4px;*/
@@ -16,6 +17,7 @@ transition-property: width;
 transition-duration: 2s;
 transition-timing-function: ease;
 transition-delay: 1s;
+display: inline-block;
 }
 div.navbar-fixed-top{border-bottom:3px #555 dashed;}
 

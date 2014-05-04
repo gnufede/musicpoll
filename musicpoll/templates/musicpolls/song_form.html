@@ -4,15 +4,15 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 {% block page_title%}
-Search and Vote
+Busca y Vota
 {% endblock %}
 {% block main %}
 
    <form class="form-search" action="/wphmusic/" id="searchForm">
        <div class="input-group input-group-lg">
-           <input class="form-control search-query" type="text" name="s" placeholder="Search..." />
+           <input class="form-control search-query" type="text" name="s" placeholder="Escribe aquí un artista o una canción..." />
            <span class="input-group-btn">
-                <button class="btn btn-default" type="submit" value="Search" >Search</button>
+                <button class="btn btn-theme" type="submit" value="Search" >Buscar</button>
            </span>
        </div>
    </form>
@@ -146,12 +146,12 @@ $("#searchForm").submit(function(event) {
                 html += "<img class=\"smallimg\" src=\"" +imageurl+ "\" />"
                 html += item.name + " - " + item.artist ;
                 if (already_voted){
-                    html += "</a> <span class=\"btn \"> You already voted!</span>";
+                    html += "</a> <span class=\"btn  some-margin-left\"> Ya has votado ésta!</span>";
                 }
-               else if (already_added){
-                    html += "</a> <button class=\"btn fillvote btn-lg btn-success\">"+count+" already voted, Vote!</button>";
+               else if (already_added && count>0){
+                    html += "</a> <button class=\"btn fillvote btn-lg btn-success some-margin-left\">"+count+" han votado ésta, Vota!</button>";
                  }else{
-                    html += "</a> <button class=\"vote btn filldata btn-primary hidden\">Vote!</button>";
+                    html += "</a> <button class=\"vote btn filldata btn-primary hidden some-margin-left\">Vota!</button>";
                     }
                // });
                html += "</div></li>"
