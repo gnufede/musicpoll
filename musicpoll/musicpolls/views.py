@@ -97,10 +97,7 @@ class VoteListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(VoteListView, self).get_context_data(**kwargs)
-        cursor = connection.cursor()
-        cursor.execute('select (count (user_id)) as count from musicpolls_choice group by song_id order by count desc limit 1')
-        maxvotes = cursor.fetchone()[0]
-        context['maxvotes'] = maxvotes
+        context['maxvotes'] = Choice.objects.values('song').annotate(dcount=Count('user__id')).order_by('-dcount').values('dcount')[0]['dcount']
         return context
 
     def get_queryset(self):
